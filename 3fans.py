@@ -14,20 +14,36 @@ driver.get(url=url)
 driver.refresh()
 time.sleep(1)
 
-followers=driver.find_elements(By.XPATH,'//*[@id="page-follows"]/div/div[2]/div[2]/div[2]/ul[1]/li/a')
-Signs=driver.find_elements(By.XPATH,'//*[@id="page-follows"]/div/div[2]/div[2]/div[2]/ul[1]/li/div[2]/p')
+pages=5
+for i in range(pages):
+    followers=driver.find_elements(By.XPATH,'//*[@id="page-follows"]/div/div[2]/div[2]/div[2]/ul[1]/li/a')
+    Signs=driver.find_elements(By.XPATH,'//*[@id="page-follows"]/div/div[2]/div[2]/div[2]/ul[1]/li/div[2]/p')
 
-for i in range(len(followers)):
-    follower=followers[i]
-    Sign=Signs[i]
-    name=follower.accessible_name
-    herf=follower.get_attribute('href')
-    uid=re.sub(r'\D','',herf)
-    sign=Sign.accessible_name
-    print(name.ljust(20),'签名：'+sign.ljust(20),'uid: '+uid.ljust(20))
-# descs=driver.find_elements(By.CLASS_NAME,'desc')
+    for j in range(len(followers)):
+        follower=followers[j]
+        Sign=Signs[j]
+        name=follower.accessible_name
+        herf=follower.get_attribute('href')
+        uid=re.sub(r'\D','',herf)
+        sign=Sign.accessible_name
+        print(i*20+j+1,': ',name.ljust(20),'签名：'+sign.ljust(20),'uid: '+uid.ljust(20))
+    print('number %d page done'%(i+1))
 
-# for i in range(len(names)):
-#     print(i+1,names[i].text,descs[i].text)
+    next_page=driver.find_element(By.XPATH,'//*[@id="page-follows"]/div/div[2]/div[2]/div[2]/ul[2]/li[@title="下一页"]/a')
+    next_page.click()
+
+# //*[@id="page-follows"]/div/div[6]/div[2]/div/div[3]/a/span
+# //*[@id="page-follows"]/div/div[6]/div[2]/div/div[3]/a/span
+    # try:
+    #     banned=driver.find_elements(By.XPATH,'//*[@id="page-follows"]/div/div[6]/div[2]/div/div[1]/div[@class="modal-title"')
+    #     if banned:
+    #         print('被ban了')
+    #         break
+    # except:
+    #     print('没被ban')
+    time.sleep(1)
+
+
+
 
 print('done')
